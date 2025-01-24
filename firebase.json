@@ -1,0 +1,33 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "my-mood-tracking-app",
+          "appId": "1:215518049988:android:b558bb25fac2e1fab9bb91",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "my-mood-tracking-app",
+          "configurations": {
+            "android": "1:215518049988:android:b558bb25fac2e1fab9bb91",
+            "ios": "1:215518049988:ios:dbd58c9a8775d7acb9bb91",
+            "macos": "1:215518049988:ios:dbd58c9a8775d7acb9bb91",
+            "web": "1:215518049988:web:0f2c223fd3e0a1a6b9bb91",
+            "windows": "1:215518049988:web:3b4eec95df871935b9bb91"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
