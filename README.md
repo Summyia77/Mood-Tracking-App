@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # moodtrack
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# Mood-Tracking-App
+>>>>>>> 212b0f76b07020ec090ec3761dabf04d4348bc32
