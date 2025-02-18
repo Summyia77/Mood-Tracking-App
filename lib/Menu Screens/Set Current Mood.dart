@@ -1,24 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+
 class SetCurrentMood extends StatefulWidget {
   const SetCurrentMood({super.key});
 
   @override
-  State<SetCurrentMood> createState() => _Home_ScreenState();
+  State<SetCurrentMood> createState() => _SetCurrentMoodState();
 }
 
-class _Home_ScreenState extends State<SetCurrentMood> {
-  String mood="";
-  TextEditingController mooddescription =TextEditingController();
+class _SetCurrentMoodState extends State<SetCurrentMood> {
+  String mood = "";
+  TextEditingController mooddescription = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
-          height: 732,
+        child: SizedBox(
+          height: 732, // Or use MediaQuery.of(context).size.height if needed
           child: Stack(
             children: [
               Image.asset(
@@ -27,19 +29,19 @@ class _Home_ScreenState extends State<SetCurrentMood> {
                 width: double.infinity,
                 height: double.infinity,
               ),
-
               Positioned(
                 top: 50,
                 left: 20,
                 child: Row(
                   children: [
                     CircleAvatar(
-                        backgroundColor:Colors.white,
-                        radius: 30.0,
-                        backgroundImage: AssetImage("images/logo.png")),
-                    SizedBox(width: 10),
+                      backgroundColor: Colors.white,
+                      radius: 30.0,
+                      backgroundImage: const AssetImage("images/logo.png"),
+                    ),
+                    const SizedBox(width: 10),
                     Padding(
-                      padding: const EdgeInsets.only(left:9.0),
+                      padding: const EdgeInsets.only(left: 9.0),
                       child: Text(
                         'Set Current Mood',
                         style: GoogleFonts.orelegaOne(
@@ -56,256 +58,45 @@ class _Home_ScreenState extends State<SetCurrentMood> {
                 top: 150,
                 left: 20,
                 right: 20,
-                child:
-
-                    Text(
-                      'Select Your Current Mood',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.orelegaOne(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
-
-                    // Grid layout with 6 containers
-
-
-
+                child: Text(
+                  'Select Your Current Mood',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.orelegaOne(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
               ),
               Positioned(
                 top: 220,
-
                 child: Column(
                   children: [
-              
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
+                    // ... (Existing code for mood selection buttons - no changes needed)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  mood = "great";
-                                  print(mood);
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent, // Set primary color to transparent
-                                // Set text color to black (or desired color)
-                                elevation: 0, // Remove shadow
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Image.asset(
-                                'images/great.png',
-                                width: 74,
-                                height: 74,
-                              ),
-                            )
-                        ),
-                        Text(
-                          'Great',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.orelegaOne(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),)
+                        _buildMoodButton('great', 'images/great.png'),
+                        _buildMoodButton('good', 'images/goodd.png'),
+                        _buildMoodButton('normal', 'images/normal.png'),
                       ],
                     ),
-                    Column(
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  mood = "good";
-                                  print(mood);
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent, // Set primary color to transparent
-                                // Set text color to black (or desired color)
-                                elevation: 0, // Remove shadow
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Image.asset(
-                                'images/goodd.png',
-                                width: 74,
-                                height: 74,
-                              ),
-                            )
-                        ),
-                        Text(
-                          'Good',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.orelegaOne(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),)
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  mood = "normal";
-                                  print(mood);
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent, // Set primary color to transparent
-                                // Set text color to black (or desired color)
-                                elevation: 0, // Remove shadow
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Image.asset(
-                                'images/normal.png',
-                                width: 74,
-                                height: 74,
-                              ),
-                            )
-                        ),
-                        Text(
-                          'Normal',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.orelegaOne(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),)
+                        _buildMoodButton('bad', 'images/bad.png'),
+                        _buildMoodButton('awful', 'images/awful.png'),
+                        _buildMoodButton('angry', 'images/angry.png'),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  mood = "bad";
-                                  print(mood);
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent, // Set primary color to transparent
-                                // Set text color to black (or desired color)
-                                elevation: 0, // Remove shadow
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Image.asset(
-                                'images/bad.png',
-                                width: 74,
-                                height: 74,
-                              ),
-                            )
-                        ),
-                        Text(
-                          'Bad',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.orelegaOne(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),)
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  mood = "awful";
-                                  print(mood);
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent, // Set primary color to transparent
-                                // Set text color to black (or desired color)
-                                elevation: 0, // Remove shadow
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Image.asset(
-                                'images/awful.png',
-                                width: 74,
-                                height: 74,
-                              ),
-                            )
-                        ),
-                        Text(
-                          'Awful',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.orelegaOne(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),)
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  mood = "angry";
-                                  print(mood);
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent, // Set primary color to transparent
-                                // Set text color to black (or desired color)
-                                elevation: 0, // Remove shadow
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Image.asset(
-                                'images/angry.png',
-                                width: 74,
-                                height: 74,
-                              ),
-                            )
-                        ),
-                        Text(
-                          'Angry',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.orelegaOne(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),)
-                      ],
-                    ),
-
-                  ],
-                ),
-
-
-]
-              ),
               ),
               Positioned(
                 top: 450,
                 left: 20,
                 right: 20,
-                child:
-
-                Text(
+                child: Text(
                   'How was your day ?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.orelegaOne(
@@ -313,11 +104,6 @@ class _Home_ScreenState extends State<SetCurrentMood> {
                     color: Colors.black,
                   ),
                 ),
-
-                // Grid layout with 6 containers
-
-
-
               ),
               Positioned(
                 left: 30,
@@ -325,22 +111,22 @@ class _Home_ScreenState extends State<SetCurrentMood> {
                 child: Container(
                   width: 300,
                   height: 120,
-                  padding:  EdgeInsets.symmetric(horizontal: 4.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   decoration: BoxDecoration(
-                    color: Colors.white, // Set background color to purple
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.1),
                         spreadRadius: 2,
                         blurRadius: 10,
-                        offset: Offset(0, -3),
+                        offset: const Offset(0, -3),
                       ),
                     ],
                   ),
@@ -350,7 +136,7 @@ class _Home_ScreenState extends State<SetCurrentMood> {
                       controller: mooddescription,
                       keyboardType: TextInputType.text,
                       style: GoogleFonts.orelegaOne(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 14,
                           color: Colors.black,
                         ),
@@ -358,96 +144,136 @@ class _Home_ScreenState extends State<SetCurrentMood> {
                       decoration: InputDecoration(
                         hintText: "Enter small detail of your day",
                         hintStyle: GoogleFonts.orelegaOne(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.grey,
                           ),
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
                         ),
-
                       ),
                     ),
                   ),
                 ),
               ),
               Positioned(
-                top:650,
+                top: 650,
                 left: 20,
                 right: 20,
-                child:  ElevatedButton(
+                child: ElevatedButton(
                   onPressed: () async {
+                    if (mood.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select a mood.'),
+                        ),
+                      );
+                      return;
+                    }
 
                     try {
                       DateTime now = DateTime.now();
-                      DateTime currentDate = DateTime(now.year, now.month, now.day);
+                      String currentDate = DateFormat('yMMMMd').format(now);
+
                       final existingProduct = await FirebaseFirestore.instance
                           .collection('UserMood')
-                          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                      .where('date',isEqualTo: currentDate)
-
+                          .where('userId',
+                          isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                          .where('date', isEqualTo: currentDate)
                           .get();
 
                       if (existingProduct.docs.isNotEmpty) {
-                        // Product already exists in wishlist
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('You already set your today mood'),
                           ),
                         );
                       } else {
-                        DateTime now = DateTime.now();
-                        DateTime currentDate = DateTime(now.year, now.month, now.day);
-                        print(currentDate);
-                        // Add product to wishlist
-                        await FirebaseFirestore.instance.collection('UserMood').add({
+                        await FirebaseFirestore.instance
+                            .collection('UserMood')
+                            .add({
                           'mod': mood,
-'mood description':mooddescription.text,
+                          'mood description': mooddescription.text,
                           'userId': FirebaseAuth.instance.currentUser?.uid,
                           'date': currentDate,
                         });
 
-                        // Show success message
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Mood Set'),
+                          const SnackBar(
+                            content: Text('Mood Set Successfuly!'),
                           ),
                         );
                       }
                     } catch (e) {
-                      // Handle errors
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Failed to add to Cart: $e'),
+                          content: Text('Failed to set mood: $e'),
                         ),
                       );
                     }
                   },
-                  child:Text(
+                  child: Text(
                     'Set Mood',
                     style: GoogleFonts.orelegaOne(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                       ),
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // Purple background
-                    // Text color
+                    backgroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0), // Border radius
-                      side: BorderSide(color: Colors.black), // Black border
+                      borderRadius: BorderRadius.circular(30.0),
+                      side: const BorderSide(color: Colors.black),
                     ),
-                    minimumSize: Size(40, 40), // Set width and height
-                    elevation: 7, // Shadow elevation
-                    shadowColor: Colors.black, // Shadow color
+                    minimumSize: const Size(40, 40),
+                    elevation: 7,
+                    shadowColor: Colors.black,
                   ),
-                ), )
-
-            ]
+                ),
+              ),
+            ],
+          ),
         ),
-      ),),
+      ),
+    );
+  }
+
+  Widget _buildMoodButton(String moodName, String imagePath) {
+    return Column(
+      children: [
+        Container(
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                mood = moodName;
+                print(mood);
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+            child: Image.asset(
+              imagePath,
+              width: 74,
+              height: 74,
+            ),
+          ),
+        ),
+        Text(
+          moodName.substring(0, 1).toUpperCase() + moodName.substring(1), // Capitalize first letter
+          textAlign: TextAlign.center,
+          style: GoogleFonts.orelegaOne(
+            fontSize: 16,
+            color: Colors.black,
+          ),
+        )
+      ],
     );
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:moodtrack/Menu%20Screens/Mood%20Progress.dart';
 
 class Mood_Calendar extends StatefulWidget {
   const Mood_Calendar({super.key});
@@ -10,29 +12,57 @@ class Mood_Calendar extends StatefulWidget {
   @override
   State<Mood_Calendar> createState() => _Home_ScreenState();
 }
+
 class Moods {
   final String mod;
 
-
   Moods({
     required this.mod,
-
   });
 
   factory Moods.fromFirestore(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
     return Moods(
       mod: data['mod'],
-
     );
   }
 }
+
 class _Home_ScreenState extends State<Mood_Calendar> {
+  DateTime? _selectedDate;
+  String? moodForSelectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+    _fetchMoodForDate(_selectedDate!);
+  }
+
+  void _fetchMoodForDate(DateTime date) {
+    String formattedDate = DateFormat('yMMMMd').format(date);
+
+    FirebaseFirestore.instance
+        .collection('UserMood')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('date', isEqualTo: formattedDate)
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        final mood = Moods.fromFirestore(snapshot.docs.first);
+        setState(() {
+          moodForSelectedDate = mood.mod;
+        });
+      } else {
+        setState(() {
+          moodForSelectedDate = null;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    var _selectedDate;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -72,9 +102,8 @@ class _Home_ScreenState extends State<Mood_Calendar> {
               Positioned(
                 right: 20,
                 left: 20,
-                top: 230,
+                top: 170,
                 child: Container(
-
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -89,69 +118,65 @@ class _Home_ScreenState extends State<Mood_Calendar> {
                     ],
                   ),
                   child: CalendarDatePicker(
-                    initialDate: _selectedDate,
+                    initialDate: _selectedDate ?? DateTime.now(),
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                     onDateChanged: (DateTime value) {
                       setState(() {
                         _selectedDate = value;
+                        _fetchMoodForDate(value);
                       });
                     },
                     currentDate: DateTime.now(),
                   ),
                 ),
               ),
-
-              StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('UserMood')
-                    .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                    .where('date', isEqualTo: DateTime.now().toString())
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-
-                  final usermood = snapshot.data!.docs.map((doc) => Moods.fromFirestore(doc)).toList();
-
-                  if (usermood.isEmpty) {
-                    return Text('No mood logs found for you today.');
-                  }
-
-                  return ListView.builder(
-                    itemCount: usermood.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final mood = usermood[index];
-                      return Positioned(
-                        child: Text(
-                          'Mood: ${mood.mod}',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.orelegaOne(
-                            textStyle: TextStyle(
-                              fontSize: 19,
-                              color: Colors.purple,
-                            ),
-                          ),
+              if (moodForSelectedDate != null)
+                Positioned(
+                  top: 600,
+                  left: 20,
+                  right: 20,
+                  child: Center(
+                    child: Text(
+                      'Mood: $moodForSelectedDate',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.orelegaOne(
+                        textStyle: const TextStyle(
+                          fontSize: 19,
+                          color: Colors.purple,
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
-
+                      ),
+                    ),
+                  ),
+                )
+              else if (_selectedDate != null)
+                Positioned(
+                  top: 600,
+                  left: 20,
+                  right: 20,
+                  child: Center(
+                    child: Text(
+                      'No mood found for this date.',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.orelegaOne(
+                        textStyle: const TextStyle(
+                          fontSize: 19,
+                          color: Colors.purple,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               Positioned(
                 top: 650,
                 left: 20,
                 right: 20,
                 child: ElevatedButton(
                   onPressed: () {
-                    print(DateTime.now().toString());
-                  },
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MoodProgress_Screen()),
+                    );                  },
                   child: Text(
                     'See Progress',
                     style: GoogleFonts.orelegaOne(
@@ -162,16 +187,14 @@ class _Home_ScreenState extends State<Mood_Calendar> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // Purple background
-                    // Text color
+                    backgroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(30.0), // Border radius
-                      side: BorderSide(color: Colors.black), // Black border
+                      borderRadius: BorderRadius.circular(30.0),
+                      side: BorderSide(color: Colors.black),
                     ),
-                    minimumSize: Size(40, 40), // Set width and height
-                    elevation: 7, // Shadow elevation
-                    shadowColor: Colors.black, // Shadow color
+                    minimumSize: Size(40, 40),
+                    elevation: 7,
+                    shadowColor: Colors.black,
                   ),
                 ),
               )

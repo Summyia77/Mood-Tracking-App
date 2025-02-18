@@ -39,7 +39,7 @@ class Welcome_Screen extends StatelessWidget {
                           'Welcome! Lets track your moods and See how your life gone!',
                           style:  GoogleFonts.orelegaOne(
                               textStyle: TextStyle(fontSize: 15,
-                                color:Colors.orange,
+                                color:Colors.purple,
                               )
                           ),
                           textAlign: TextAlign.center,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moodtrack/Menu%20Screens/About.dart';
 import 'package:moodtrack/Menu%20Screens/Mood%20Calendar.dart';
+import 'package:moodtrack/Menu%20Screens/Mood%20Progress.dart';
 import 'package:moodtrack/Menu%20Screens/Set%20Current%20Mood.dart';
 
 class Home_Screen extends StatefulWidget {
@@ -129,9 +130,9 @@ class _Home_ScreenState extends State<Home_Screen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Home_Screen()),
+                        MaterialPageRoute(builder: (context) => MoodProgress_Screen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(

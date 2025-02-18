@@ -119,8 +119,11 @@ TextEditingController passwordcontroller= TextEditingController();
                               padding: const EdgeInsets.only(left: 90.0),
                               child: Row(
                                 children: [
-                                  Text("Don't have Account",style: GoogleFonts.oregano(
-                                    textStyle: TextStyle()
+                                  Text("Don't have Account",style: GoogleFonts.orelegaOne(
+                                    textStyle: TextStyle(
+                                        color:Colors.purple
+
+                                    )
                                   ),),
                                   GestureDetector(
                                     onTap: (){

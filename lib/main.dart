@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // home: SplashScreen(),
-      home: Splash_Screen(),
+        home: Splash_Screen(),
     );
   }
 }
