@@ -20,17 +20,17 @@
 ## User Interface 📸
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-  <img src="https://github.com/user-attachments/assets/b96888c6-6d67-4949-91bc-0a0ada3db748" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/9bb2dd1c-a2b4-4715-832f-008f8ec9cb11" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/3b941133-d320-4471-b737-cccb5ab5c403" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/94757790-17b0-40bd-851d-d2a66002f820" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/0db66f04-388b-49dc-bfb4-131d284f0520" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/b7cf11a6-f618-43e8-bac4-5e469f8653b4" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/67c719fd-2778-4069-a411-b04bc5b7a9ad" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/29ec0f97-10d0-4990-8e55-f0f8d0c23636" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/58830ac4-7b4e-4e3d-931c-b30fd96ce8b9" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/205fb8f3-98c8-4e0e-877e-c52d267aa814" width="200" height="150" style="margin: 5px;">
-  <img src="https://github.com/user-attachments/assets/bb288bca-5866-46d9-8750-feafde5837ae" width="200" height="150" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/b96888c6-6d67-4949-91bc-0a0ada3db748" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/9bb2dd1c-a2b4-4715-832f-008f8ec9cb11" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/3b941133-d320-4471-b737-cccb5ab5c403" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/94757790-17b0-40bd-851d-d2a66002f820" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/0db66f04-388b-49dc-bfb4-131d284f0520" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/b7cf11a6-f618-43e8-bac4-5e469f8653b4" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/67c719fd-2778-4069-a411-b04bc5b7a9ad" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/29ec0f97-10d0-4990-8e55-f0f8d0c23636" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/58830ac4-7b4e-4e3d-931c-b30fd96ce8b9" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/205fb8f3-98c8-4e0e-877e-c52d267aa814" width="220" height="auto" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/bb288bca-5866-46d9-8750-feafde5837ae" width="220" height="auto" style="margin: 5px;">
 </div>
 
 ## Technologies Used 🛠️
